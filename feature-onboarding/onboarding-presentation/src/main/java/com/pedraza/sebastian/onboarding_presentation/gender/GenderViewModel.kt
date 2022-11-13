@@ -3,7 +3,7 @@ package com.pedraza.sebastian.onboarding_presentation.gender
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pedraza.sebastian.core.domain.model.Gender
-import com.pedraza.sebastian.core.domain.preferences.Preferences
+import com.pedraza.sebastian.core.data.preferences.Preferences
 import com.pedraza.sebastian.core.navigation.Route
 import com.pedraza.sebastian.core.utils.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel

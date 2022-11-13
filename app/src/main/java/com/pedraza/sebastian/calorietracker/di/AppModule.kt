@@ -4,7 +4,9 @@ import android.app.Application
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import com.pedraza.sebastian.core.domain.DefaultPreferences
-import com.pedraza.sebastian.core.domain.preferences.Preferences
+import com.pedraza.sebastian.core.data.preferences.Preferences
+import com.pedraza.sebastian.core.domain.usecases.FilterOutDigitsUseCase
+import com.pedraza.sebastian.core.domain.usecases.FilterOutDigitsUseCaseImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,4 +28,8 @@ object AppModule {
     fun provideDefaultPreferences(sharedPref: SharedPreferences): Preferences {
         return DefaultPreferences(sharedPref)
     }
+
+    @Provides
+    @Singleton
+    fun provideFilterOutDigitsUseCase(): FilterOutDigitsUseCase = FilterOutDigitsUseCaseImpl()
 }
