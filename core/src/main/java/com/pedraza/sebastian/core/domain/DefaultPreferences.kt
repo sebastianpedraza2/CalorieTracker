@@ -5,7 +5,7 @@ import com.pedraza.sebastian.core.domain.model.ActivityLevel
 import com.pedraza.sebastian.core.domain.model.Gender
 import com.pedraza.sebastian.core.domain.model.GoalType
 import com.pedraza.sebastian.core.domain.model.UserInfo
-import com.pedraza.sebastian.core.domain.preferences.Preferences
+import com.pedraza.sebastian.core.data.preferences.Preferences
 
 class DefaultPreferences(private val sharedPref: SharedPreferences) : Preferences {
     override fun saveGender(gender: Gender) {

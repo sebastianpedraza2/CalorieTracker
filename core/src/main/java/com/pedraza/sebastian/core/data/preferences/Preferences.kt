@@ -1,4 +1,4 @@
-package com.pedraza.sebastian.core.domain.preferences
+package com.pedraza.sebastian.core.data.preferences
 
 import com.pedraza.sebastian.core.domain.model.ActivityLevel
 import com.pedraza.sebastian.core.domain.model.Gender

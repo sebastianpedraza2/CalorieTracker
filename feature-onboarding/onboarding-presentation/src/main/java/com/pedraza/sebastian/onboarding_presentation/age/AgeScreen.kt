@@ -1,40 +1,47 @@
-package com.pedraza.sebastian.onboarding_presentation.gender
+package com.pedraza.sebastian.onboarding_presentation.age
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.pedraza.sebastian.core.R
 import com.pedraza.sebastian.core.utils.UiEvent
 import com.pedraza.sebastian.core_ui.LocalSpacing
-import com.pedraza.sebastian.core.R
-import com.pedraza.sebastian.core.domain.model.Gender
 import com.pedraza.sebastian.onboarding_presentation.components.ActionButton
-import com.pedraza.sebastian.onboarding_presentation.components.SelectableButton
+import com.pedraza.sebastian.onboarding_presentation.components.UnitTextField
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
-fun GenderScreen(
+fun AgeScreen(
+    scaffoldState: ScaffoldState,
     onNavigate: (UiEvent.Navigate) -> Unit,
-    viewModel: GenderViewModel = hiltViewModel()
+    viewModel: AgeViewModel = hiltViewModel()
 ) {
-    val selectedGender by viewModel.selectedGender.collectAsStateWithLifecycle()
+    val age by viewModel.age.collectAsStateWithLifecycle()
     val spacing = LocalSpacing.current
+    val context = LocalContext.current
 
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
             when (event) {
                 is UiEvent.Navigate -> onNavigate(event)
+                is UiEvent.ShowSnackBar -> {
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        message = event.uiText.asString(
+                            context
+                        )
+                    )
+                }
                 else -> Unit
             }
         }
@@ -55,38 +62,18 @@ fun GenderScreen(
                 style = MaterialTheme.typography.h3
             )
             Spacer(modifier = Modifier.height(spacing.spaceMedium))
-            Row {
-                SelectableButton(
-                    text = stringResource(id = R.string.male),
-                    isSelected = selectedGender is Gender.Male,
-                    color = MaterialTheme.colors.primaryVariant,
-                    selectedTextColor = Color.White,
-                    textStyle = MaterialTheme.typography.button.copy(
-                        fontWeight = FontWeight.Normal
-                    )
-                ) {
-                    viewModel.onGenderClick(Gender.Male)
-                }
-                Spacer(Modifier.width(30.dp))
-                SelectableButton(
-                    text = stringResource(id = R.string.female),
-                    isSelected = selectedGender is Gender.Female,
-                    color = MaterialTheme.colors.primaryVariant,
-                    selectedTextColor = Color.White,
-                    textStyle = MaterialTheme.typography.button.copy(
-                        fontWeight = FontWeight.Normal
-                    )
-                ) {
-                    viewModel.onGenderClick(Gender.Female)
-                }
+            UnitTextField(
+                text = age,
+                unitText = stringResource(id = R.string.whats_your_age),
+                onValueChanged = viewModel::onAgeChanged
+            )
 
-            }
         }
         ActionButton(
             modifier = Modifier.align(Alignment.BottomEnd),
             text = stringResource(id = R.string.next),
             onClick = {
-                viewModel.onNextClick()
+                viewModel.onClickNext()
             })
     }
 
